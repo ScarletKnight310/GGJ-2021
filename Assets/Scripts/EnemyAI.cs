@@ -7,7 +7,14 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
+    
     [SerializeField] bool is2D = false;
+    [SerializeField] bool isStunned = false;
+    [Tooltip("Length of stun in seconds")]
+    [SerializeField] float stunDelay = 1f;
+    float stunTimer = 0f;
+
+    [SerializeField] SpriteRenderer spriteRenderer;
 
     Vector3 destination;
     NavMeshAgent agent;
@@ -20,6 +27,18 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
+        if (isStunned)
+        {
+            stunTimer += Time.deltaTime;
+            
+            if (stunTimer >= stunDelay)
+            {
+                isStunned = false;
+            }
+
+            return;
+        }
+
         destination = target.position;
         agent.destination = destination;
         
@@ -27,5 +46,11 @@ public class EnemyAI : MonoBehaviour
         {
             transform.LookAt(target);
         }
+    }
+
+    public void Stun()
+    {
+        isStunned = true;
+        stunTimer = 0f;
     }
 }

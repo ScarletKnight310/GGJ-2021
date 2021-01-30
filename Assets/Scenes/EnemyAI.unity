@@ -335,7 +335,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1537406763}
+  spriteRenderer: {fileID: 412758436}
   is2D: 0
+  isStunned: 0
+  stunDelay: 5
 --- !u!195 &759832091
 NavMeshAgent:
   m_ObjectHideFlags: 0
