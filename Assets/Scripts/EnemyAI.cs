@@ -18,11 +18,13 @@ public class EnemyAI : MonoBehaviour
 
     Vector3 destination;
     NavMeshAgent agent;
+    Animator animator;
 
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
         destination = agent.destination;
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -41,6 +43,8 @@ public class EnemyAI : MonoBehaviour
 
         destination = target.position;
         agent.destination = destination;
+
+        animator.SetBool("isWalking", agent.remainingDistance > agent.stoppingDistance);
         
         if (!is2D)
         {
