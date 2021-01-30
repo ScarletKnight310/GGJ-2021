@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class KeyBag : MonoBehaviour
 {
-    public int numOfKeys = 0;
+    int numOfKeys = 0;
     public string keyTag = "Key";
     public string doorTag = "Door";
-
+    public Text numOfKeysText;
     private void OnTriggerEnter(Collider col) {
         Debug.Log("HIGH");
         if (col.gameObject.CompareTag(keyTag)) {
@@ -20,5 +21,6 @@ public class KeyBag : MonoBehaviour
             numOfKeys--;
             Debug.Log("DOOR UNLOCKED");
         }
+        numOfKeysText.text = numOfKeys+"";
     }
 }
