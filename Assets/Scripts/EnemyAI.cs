@@ -7,14 +7,11 @@ using UnityEngine.AI;
 public class EnemyAI : MonoBehaviour
 {
     [SerializeField] Transform target;
-    
     [SerializeField] bool is2D = false;
-    [SerializeField] bool isStunned = false;
+    bool isStunned = false;
     [Tooltip("Length of stun in seconds")]
     [SerializeField] float stunDelay = 1f;
     float stunTimer = 0f;
-
-    [SerializeField] SpriteRenderer spriteRenderer;
 
     Vector3 destination;
     NavMeshAgent agent;
@@ -36,6 +33,7 @@ public class EnemyAI : MonoBehaviour
             if (stunTimer >= stunDelay)
             {
                 isStunned = false;
+                animator.SetBool("isStunned", false);
             }
 
             return;
@@ -56,5 +54,6 @@ public class EnemyAI : MonoBehaviour
     {
         isStunned = true;
         stunTimer = 0f;
+        animator.SetBool("isStunned", true);
     }
 }
