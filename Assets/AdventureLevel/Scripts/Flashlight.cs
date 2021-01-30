@@ -6,6 +6,7 @@ public class Flashlight : MonoBehaviour
 {
     public Light l;
 
+
     public float pLightWidth = 40f;
     public float pLightIntensity = 1300f;
     public float pRange = 150f;
@@ -13,7 +14,6 @@ public class Flashlight : MonoBehaviour
     public float sLightWidth = 75f;
     public float sLightIntensity = 650f;
     public float sRange = 150f;
-
 
     // Update is called once per frame
     void Update()
