@@ -5,13 +5,18 @@ using UnityEngine;
 public class Shoot : MonoBehaviour
 {
 
+    public static GameObject instance = null;
+
     //Records the number of projectiles the player has, the player, and the projectile
     public GameObject player;
     public GameObject projectile;
-    public int numProj = 1;
+    public int maxProj = 5;
 
     //Determines the distance for spawning in the projectile
     public float spawnDistance = 10;
+
+    //Determines the speed at which the projectile moves
+    public float speed = 150;
 
     //Records the fire rate
     [SerializeField]
@@ -25,12 +30,26 @@ public class Shoot : MonoBehaviour
     [SerializeField]
     private Transform firePoint;
 
+    private List<GameObject> staples = new List<GameObject>();
+    public int maxCurrStaples = 3;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
 
-        
+        if (instance != null)
+        {
+
+            Destroy(gameObject);
+
+        }
+        else
+        {
+
+            instance = gameObject;
+
+        }
+
 
     }
 
@@ -38,30 +57,44 @@ public class Shoot : MonoBehaviour
     void Update()
     {
 
-        //Records player position, direction, and rotation for spawning in projectile
-        Vector3 playerPos = player.transform.position;
-        Vector3 playerDir = player.transform.forward;
-        Quaternion playerRot = player.transform.rotation;
-
-        //Records the position to spawn in the projectile
-        Vector3 spawnPos = playerPos + playerDir * spawnDistance;
-        
         //Timer for recording for fire rate
         timer += Time.deltaTime;
-        if(timer >= fireRate)
+        if (timer >= fireRate)
         {
 
             //Fires gun
-            if (Input.GetButton("Fire1"))
+            if (Input.GetButtonDown("Fire1"))
             {
 
+                //Records player position, direction, and rotation for spawning in projectile
+                Vector3 playerPos = player.transform.position;
+                Vector3 playerDir = player.transform.forward;
+                Quaternion playerRot = player.transform.rotation;
+
+                //Records the position to spawn in the projectile
+                Vector3 spawnPos = playerPos + (playerDir * spawnDistance);
+
                 timer = 0f;
-                fireStapler();
+                if (maxProj > 0 && staples.Count < maxCurrStaples)
+                {
+
+                    fireStapler();
+                    GameObject proj2 = Instantiate(projectile, spawnPos, playerRot);
+                    staples.Add(proj2);
+                    maxProj--;
+
+                }
+                else
+                {
+
+
+
+                }
 
             }
 
         }
-       
+
     }
 
     //Fires projectiles
@@ -69,17 +102,30 @@ public class Shoot : MonoBehaviour
     {
 
         Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
-        projectile.GetComponent<Rigidbody>().AddForce(transform.forward * 100);
-        Destroy(projectile, 3);
-         
+        projectile.GetComponent<Rigidbody>().AddForce(transform.forward * speed);
+        if (projectile != null)
+        {
+
+            Destroy(projectile, 3);
+            projectile = null;
+
+        }
+
         Ray ray = new Ray(firePoint.position, firePoint.forward);
         RaycastHit hitInfo;
 
-        if(Physics.Raycast(ray, out hitInfo, 100))
+        if (Physics.Raycast(ray, out hitInfo, 100))
         {
 
 
         }
+
+    }
+
+    private void stapleHit()
+    {
+
+
 
     }
 
