@@ -63,35 +63,7 @@ public class Shoot : MonoBehaviour
         {
 
             //Fires gun
-            if (Input.GetButtonDown("Fire1"))
-            {
-
-                //Records player position, direction, and rotation for spawning in projectile
-                Vector3 playerPos = player.transform.position;
-                Vector3 playerDir = player.transform.forward;
-                Quaternion playerRot = player.transform.rotation;
-
-                //Records the position to spawn in the projectile
-                Vector3 spawnPos = playerPos + (playerDir * spawnDistance);
-
-                timer = 0f;
-                if (maxProj > 0 && staples.Count < maxCurrStaples)
-                {
-
-                    fireStapler();
-                    GameObject proj2 = Instantiate(projectile, spawnPos, playerRot);
-                    staples.Add(proj2);
-                    maxProj--;
-
-                }
-                else
-                {
-
-
-
-                }
-
-            }
+            fireStapler();
 
         }
 
@@ -100,32 +72,44 @@ public class Shoot : MonoBehaviour
     //Fires projectiles
     private void fireStapler()
     {
-
-        Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
-        projectile.GetComponent<Rigidbody>().AddForce(transform.forward * speed);
-        if (projectile != null)
+        if (Input.GetButtonDown("Fire1"))
         {
 
-            Destroy(projectile, 3);
-            projectile = null;
+            //Records player position, direction, and rotation for spawning in projectile
+            Vector3 playerPos = player.transform.position;
+            Vector3 playerDir = player.transform.forward;
+            Quaternion playerRot = player.transform.rotation;
 
-        }
+            //Records the position to spawn in the projectile
+            Vector3 spawnPos = playerPos + (playerDir * spawnDistance);
 
-        Ray ray = new Ray(firePoint.position, firePoint.forward);
-        RaycastHit hitInfo;
+            timer = 0f;
+            if (maxProj > 0 && staples.Count < maxCurrStaples)
+            {
 
-        if (Physics.Raycast(ray, out hitInfo, 100))
-        {
+                GameObject proj2 = Instantiate(projectile, spawnPos, playerRot);
+                proj2.SetActive(true);
+                staples.Add(proj2);
+                maxProj--;
+                Debug.DrawRay(firePoint.position, firePoint.forward * 100, Color.red, 2f);
+                proj2.GetComponent<Rigidbody>().AddForce(transform.forward * speed);
 
+            }
 
         }
 
     }
 
-    private void stapleHit()
+    private void stapleHit(GameObject staple)
     {
 
+        if(staples.Contains(staple))
+        {
 
+            staples.Remove(staple);
+            Destroy(staple);
+
+        }
 
     }
 

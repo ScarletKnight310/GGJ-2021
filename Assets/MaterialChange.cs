@@ -40,11 +40,11 @@ public class MaterialChange : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         
-        if(collision.gameObject.name == "projectile")
+        if(collision.gameObject.tag == "projectile")
         {
 
             poster.GetComponent<MeshRenderer>().material = materialNeg;
-            Destroy(collision.collider.gameObject);
+            Shoot.instance.SendMessage("stapleHit", collision.collider.gameObject);
 
         }
 
