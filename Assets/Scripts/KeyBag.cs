@@ -14,12 +14,10 @@ public class KeyBag : MonoBehaviour
         if (col.gameObject.CompareTag(keyTag)) {
             col.gameObject.SetActive(false);
             numOfKeys++;
-            Debug.Log("GRABBED KEY");
         }
         else if (col.gameObject.CompareTag(doorTag) && numOfKeys > 0) {
-            col.gameObject.transform.parent.gameObject.SetActive(false);
+            col.gameObject.transform.parent.gameObject.GetComponent<Open>().enabled = true;
             numOfKeys--;
-            Debug.Log("DOOR UNLOCKED");
         }
         numOfKeysText.text = numOfKeys+"";
     }
