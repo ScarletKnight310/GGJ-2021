@@ -6,9 +6,11 @@ public class LookAtMouseScript : MonoBehaviour
     private Vector3 mousePos;
     public float speed;
     public float rayDistance = 5f;
-    public bool rayOverlap = false;
+    public static bool ray1Overlap = false;
 
-    GameObject lastLightObject;
+    GameObject nextLight;
+
+    
 
     void Update()
     {
@@ -18,33 +20,58 @@ public class LookAtMouseScript : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
+        bool lmb = Input.GetKey(KeyCode.Mouse0);
 
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity))
+        if (lmb)
         {
-            if (hit.transform.gameObject.CompareTag("LightObjects"))
+            Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
+
+            if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity))
             {
-                rayOverlap = true;
+                if (hit.transform.gameObject.CompareTag("LightObjects"))
+                {
+                    if (nextLight == null)
+                    {
+                        nextLight = hit.transform.gameObject;
 
-                lastLightObject = hit.transform.gameObject;
+                        nextLight.GetComponent<Mirror>().i++;
+                        
+                        print(nextLight.gameObject.name + " " + nextLight.GetComponent<Mirror>().i);
+                    }
 
-                if (hit.transform.gameObject.GetComponent<Mirror>().lmb)
-                    hit.transform.gameObject.GetComponent<Mirror>().l.enabled = true;
+                    nextLight.GetComponent<Mirror>().l.enabled = true;
+                    
+                    nextLight.GetComponent<Mirror>().canReflect = true;
+
+                    nextLight.GetComponent<Mirror>().prevLight = gameObject;
+
+                    nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
+
+                }
                 else
-                    hit.transform.gameObject.GetComponent<Mirror>().l.enabled = false;
+                    ResetFL();
             }
             else
-                if (lastLightObject != null)
-                    lastLightObject.GetComponent<Mirror>().l.enabled = false;
+                ResetFL();
         }
         else
-        {
-            rayOverlap = false;
+            ResetFL();
+    }
 
-            if (lastLightObject != null)
-                lastLightObject.GetComponent<Mirror>().l.enabled = false;
+    void ResetFL()
+    {
+        if (nextLight != null)
+        {
+            nextLight.GetComponent<Mirror>().canReflect = false;
+            nextLight.GetComponent<Mirror>().prevLight = null;
+
+            nextLight.GetComponent<Mirror>().l.enabled = false;
+
+            nextLight.GetComponent<Mirror>().i = 0;
+
+            nextLight = null;
         }
     }
 }
