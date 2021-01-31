@@ -10,8 +10,6 @@ public class LookAtMouseScript : MonoBehaviour
 
     GameObject lastLightObject;
 
-    public static Vector3 hitNormal;
-
     void Update()
     {
         //ROTATION
@@ -20,26 +18,26 @@ public class LookAtMouseScript : MonoBehaviour
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-
-        //Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
+        Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
 
         RaycastHit hit;
 
-        int layerMask = 1 << 8;
-
-        if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity))
         {
-            rayOverlap = true;
+            if (hit.transform.gameObject.CompareTag("LightObjects"))
+            {
+                rayOverlap = true;
 
-            lastLightObject = hit.transform.gameObject;
+                lastLightObject = hit.transform.gameObject;
 
-            hitNormal = hit.normal;
-
-            if(hit.transform.gameObject.GetComponent<Mirror>().lmb)
-                hit.transform.gameObject.GetComponent<Mirror>().l.enabled = true;
+                if (hit.transform.gameObject.GetComponent<Mirror>().lmb)
+                    hit.transform.gameObject.GetComponent<Mirror>().l.enabled = true;
+                else
+                    hit.transform.gameObject.GetComponent<Mirror>().l.enabled = false;
+            }
             else
-                hit.transform.gameObject.GetComponent<Mirror>().l.enabled = false;
-
+                if (lastLightObject != null)
+                    lastLightObject.GetComponent<Mirror>().l.enabled = false;
         }
         else
         {

@@ -13,10 +13,7 @@ public class Mirror : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //l.range = fl.pRange;
-        //l.intensity = fl.pLightIntensity;
-        //l.spotAngle = fl.pLightWidth;
+        //Debug.DrawRay(transform.position, gameObject.transform.up * -1000f, Color.red);
 
         lmb = Input.GetKey(KeyCode.Mouse0);
 
