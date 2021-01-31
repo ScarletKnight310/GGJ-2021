@@ -18,6 +18,8 @@ public class Mirror : MonoBehaviour
 
     public GameObject prevLight;
 
+    float vecDistance = 500f;
+
     GameObject lastGem;
 
     private void Start()
@@ -42,13 +44,13 @@ public class Mirror : MonoBehaviour
 
 
             //ROTATION
-            l.transform.LookAt(reflectVec * 10000f);
+            l.transform.LookAt(reflectVec * vecDistance);
 
             //NEXT REFLECTION
 
-            Debug.DrawRay(l.transform.position, reflectVec * 10000f, Color.red);
+            Debug.DrawRay(l.transform.position, reflectVec * vecDistance, Color.red);
 
-            if (Physics.Raycast(l.transform.position, reflectVec, out hit, Mathf.Infinity))
+            if (Physics.Raycast(l.transform.position, reflectVec, out hit, vecDistance))
             {
                 if (hit.transform.gameObject.CompareTag("LightObjects"))
                 {

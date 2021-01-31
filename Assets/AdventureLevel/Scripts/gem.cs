@@ -28,12 +28,11 @@ public class gem : MonoBehaviour
     {
         if (charged)
         {
-
-
-            chest.transform.position = new Vector3(Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, chest.transform.position.y, chest.transform.position.z);
-
             if (i < 60)
+            {
+                chest.transform.position = new Vector3(Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, chest.transform.position.y, chest.transform.position.z);
                 i++;
+            }
             else
                 chest.GetComponent<SpriteRenderer>().sprite = openChest;
 

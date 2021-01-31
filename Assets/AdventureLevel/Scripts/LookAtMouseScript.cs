@@ -12,7 +12,7 @@ public class LookAtMouseScript : MonoBehaviour
 
     GameObject nextLight;
 
-    
+    float vecDistance = 500f;
 
     void Update()
     {
@@ -31,9 +31,9 @@ public class LookAtMouseScript : MonoBehaviour
 
             if (lmb)
             {
-                Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
+                Debug.DrawRay(transform.position, (Input.mousePosition - pos) * vecDistance, Color.red);
 
-                if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity))
+                if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, vecDistance))
                 {
                     if (hit.transform.gameObject.CompareTag("LightObjects"))
                     {

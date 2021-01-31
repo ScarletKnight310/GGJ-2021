@@ -21,6 +21,10 @@ public class Reaper : MonoBehaviour
     public float shakeSpeed = 1f;
     public float shakeAmount = 1f;
 
+    float startShakeX = 0f;
+
+    int i = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -60,13 +64,26 @@ public class Reaper : MonoBehaviour
         currentHealth -= damage;
 
         if (!anim.GetCurrentAnimatorStateInfo(0).IsName("reaperdamaged"))
+        {
+
             anim.SetTrigger("Damaged");
+        }
 
-        //shake
-        transform.position = new Vector3(Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, transform.position.y, transform.position.z);
+        if (i < 1)
+        {
+            startShakeX = transform.position.x;
+            i++;
+        }
+        
+        //SHAKE
+        transform.position = new Vector3(startShakeX + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, transform.position.y, transform.position.z);
 
+        //DEATH
         if (currentHealth < 1f)
+        {
+            i = 0;
             Die();
+        }
     }
 
     void Die()
