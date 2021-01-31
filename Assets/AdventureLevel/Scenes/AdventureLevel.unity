@@ -1554,7 +1554,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: edb73fd53221899408328d741bdcf0a9, type: 2}
+      objectReference: {fileID: 2100000, guid: d1c089f02f332f14baeafe429ddc17f1, type: 2}
     - target: {fileID: 6720559617282788214, guid: 80aca38e6dae4cc40b8692abd4b8fbf1,
         type: 3}
       propertyPath: player
@@ -2055,7 +2055,7 @@ PrefabInstance:
     - target: {fileID: 6720559617282788211, guid: 80aca38e6dae4cc40b8692abd4b8fbf1,
         type: 3}
       propertyPath: m_Name
-      value: Mirror 2 (1)
+      value: Mirror 1
       objectReference: {fileID: 0}
     - target: {fileID: 6720559617282788213, guid: 80aca38e6dae4cc40b8692abd4b8fbf1,
         type: 3}
