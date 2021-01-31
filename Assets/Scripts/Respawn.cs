@@ -6,11 +6,18 @@ using UnityEngine.SceneManagement;
 public class Respawn : MonoBehaviour
 {
     public string tagName = "Boss";
+    public AudioClip aud;
+    public float volume = 3;
     private void OnTriggerEnter(Collider other) {
 
         if (other.gameObject.CompareTag(tagName)) {
-
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            GetComponent<MovementPlayer>().enabled = false;
+            GetComponent<AudioSource>().PlayOneShot(aud, volume);
+            StartCoroutine(Wait());
         }
+    }
+    IEnumerator Wait() {
+        yield return new WaitForSeconds(aud.length);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

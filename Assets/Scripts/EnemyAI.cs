@@ -13,6 +13,7 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] float stunDelay = 1f;
     float stunTimer = 0f;
     public GameObject endgameTrig;
+    public SpriteRenderer sprite;
 
     Vector3 destination;
     NavMeshAgent agent;
@@ -35,6 +36,7 @@ public class EnemyAI : MonoBehaviour
                 isStunned = false;
                 animator.SetBool("isStunned", false);
                 endgameTrig.SetActive(true);
+                sprite.color = new Color(99, 99, 99, 255);
             }
 
             return;
@@ -57,5 +59,6 @@ public class EnemyAI : MonoBehaviour
         stunTimer = 0f;
         animator.SetBool("isStunned", true);
         endgameTrig.SetActive(false);
+        sprite.color = new Color(205, 99, 99, 255);
     }
 }
