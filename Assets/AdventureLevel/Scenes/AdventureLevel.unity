@@ -2640,7 +2640,7 @@ PrefabInstance:
     - target: {fileID: 4073509688356217919, guid: 1fca9b5c3477e5448941798bef0b20ba,
         type: 3}
       propertyPath: shakeSpeed
-      value: 500
+      value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fca9b5c3477e5448941798bef0b20ba, type: 3}
