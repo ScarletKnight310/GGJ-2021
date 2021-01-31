@@ -18,7 +18,6 @@ public class Mirror : MonoBehaviour
 
     public GameObject prevLight;
 
-    public int i = 0;
 
     //public bool isReflecting;
 
@@ -44,48 +43,42 @@ public class Mirror : MonoBehaviour
 
             RaycastHit hit;
 
-            
 
             //ROTATION
             l.transform.LookAt(reflectVec * 10000f);
 
             //NEXT REFLECTION
-            if (i < 2)
+
+            Debug.DrawRay(l.transform.position, reflectVec * 10000f, Color.red);
+
+            if (Physics.Raycast(l.transform.position, reflectVec, out hit, Mathf.Infinity))
             {
-                Debug.DrawRay(l.transform.position, reflectVec * 10000f, Color.red);
-
-                if (Physics.Raycast(l.transform.position, reflectVec, out hit, Mathf.Infinity))
+                if (hit.transform.gameObject.CompareTag("LightObjects"))
                 {
-                    if (hit.transform.gameObject.CompareTag("LightObjects"))
+                    if (nextLight == null)
                     {
-                        if (nextLight == null)
-                        {
-                            nextLight = hit.transform.gameObject;
+                        nextLight = hit.transform.gameObject;
 
-                            nextLight.GetComponent<Mirror>().i++;
-
-                            print(nextLight.name + " " + i);
-                        }
-
-                        nextLight.GetComponent<Mirror>().l.enabled = true;
-
-                        nextLight.GetComponent<Mirror>().prevLight = l.gameObject;
-
-                        nextLight.GetComponent<Mirror>().canReflect = true;
-
-                        nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
                     }
-                    else
-                    {
-                        ResetL();
-                        //print( gameObject.name + " not a light object reset");
-                    }
+
+                    nextLight.GetComponent<Mirror>().l.enabled = true;
+
+                    nextLight.GetComponent<Mirror>().prevLight = l.gameObject;
+
+                    nextLight.GetComponent<Mirror>().canReflect = true;
+
+                    nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
                 }
                 else
                 {
                     ResetL();
-                    //print(gameObject.name + " no hit reset");
+                    //print( gameObject.name + " not a light object reset");
                 }
+            }
+            else
+            {
+                ResetL();
+                //print(gameObject.name + " no hit reset");
             }
         }
         else
@@ -103,8 +96,6 @@ public class Mirror : MonoBehaviour
             nextLight.GetComponent<Mirror>().prevLight = null;
 
             nextLight.GetComponent<Mirror>().l.enabled = false;
-
-            nextLight.GetComponent<Mirror>().i = 0;
 
             nextLight = null;
         }

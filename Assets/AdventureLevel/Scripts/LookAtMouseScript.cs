@@ -8,47 +8,56 @@ public class LookAtMouseScript : MonoBehaviour
     public float rayDistance = 5f;
     public static bool ray1Overlap = false;
 
+    bool dead;
+
     GameObject nextLight;
 
     
 
     void Update()
     {
-        //ROTATION
-        Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-        Vector3 dir = Input.mousePosition - pos;
-        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-        bool lmb = Input.GetKey(KeyCode.Mouse0);
-
-        RaycastHit hit;
-
-        if (lmb)
+        if (!Player.dead)
         {
-            Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
+            //ROTATION
+            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
+            Vector3 dir = Input.mousePosition - pos;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity))
+            bool lmb = Input.GetKey(KeyCode.Mouse0);
+
+            RaycastHit hit;
+
+            if (lmb)
             {
-                if (hit.transform.gameObject.CompareTag("LightObjects"))
+                Debug.DrawRay(transform.position, Input.mousePosition - pos, Color.red);
+
+                if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, Mathf.Infinity))
                 {
-                    if (nextLight == null)
+                    if (hit.transform.gameObject.CompareTag("LightObjects"))
                     {
-                        nextLight = hit.transform.gameObject;
+                        //if (nextLight == null)
+                        //{
+                            nextLight = hit.transform.gameObject;
 
-                        nextLight.GetComponent<Mirror>().i++;
+                        //}
+                        nextLight.GetComponent<Mirror>().l.enabled = true;
+
+                        nextLight.GetComponent<Mirror>().canReflect = true;
+
+                        nextLight.GetComponent<Mirror>().prevLight = gameObject;
+
+                        nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
+
                         
-                        print(nextLight.gameObject.name + " " + nextLight.GetComponent<Mirror>().i);
                     }
-
-                    nextLight.GetComponent<Mirror>().l.enabled = true;
-                    
-                    nextLight.GetComponent<Mirror>().canReflect = true;
-
-                    nextLight.GetComponent<Mirror>().prevLight = gameObject;
-
-                    nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
-
+                    else if (hit.transform.gameObject.CompareTag("Enemy") && !Reaper.dead)
+                    {
+                        hit.transform.gameObject.SendMessage("Damage", 1f);
+                    }
+                    else
+                        ResetFL();
                 }
                 else
                     ResetFL();
@@ -56,8 +65,7 @@ public class LookAtMouseScript : MonoBehaviour
             else
                 ResetFL();
         }
-        else
-            ResetFL();
+        
     }
 
     void ResetFL()
@@ -68,8 +76,6 @@ public class LookAtMouseScript : MonoBehaviour
             nextLight.GetComponent<Mirror>().prevLight = null;
 
             nextLight.GetComponent<Mirror>().l.enabled = false;
-
-            nextLight.GetComponent<Mirror>().i = 0;
 
             nextLight = null;
         }
