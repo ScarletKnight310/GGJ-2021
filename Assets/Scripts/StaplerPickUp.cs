@@ -15,7 +15,7 @@ public class StaplerPickUp : MonoBehaviour
         }
 
         if (Input.GetMouseButtonDown(0) && Vector3.Distance(transform.position, player.transform.position) < distance) {
-            Debug.Log("Herre");
+  
             player.GetComponent<Shoot>().enabled = true;
 
             text.text = "You found a Stapler! \n...and a weird looking poster?";

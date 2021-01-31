@@ -8,9 +8,10 @@ public class MaterialChange : MonoBehaviour
     public Material materialPos;
     public Material materialNeg;
     public GameObject poster;
-    public GameObject projectile;
+    public GameObject lightGO;
+    public bool switched = false;
 
-    private int i = 0;
+    //private int i = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +23,7 @@ public class MaterialChange : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        /*
         if(Input.GetKey(KeyCode.H))
         {
 
@@ -33,7 +34,7 @@ public class MaterialChange : MonoBehaviour
 
             }
 
-        }
+        }*/
         
     }
 
@@ -42,10 +43,11 @@ public class MaterialChange : MonoBehaviour
         
         if(collision.gameObject.tag == "projectile")
         {
-
+            if (lightGO)
+                lightGO.SetActive(false);
             poster.GetComponent<MeshRenderer>().material = materialNeg;
             Shoot.instance.SendMessage("stapleHit", collision.collider.gameObject);
-
+            switched = true;
         }
 
     }

@@ -12,6 +12,7 @@ public class EnemyAI : MonoBehaviour
     [Tooltip("Length of stun in seconds")]
     [SerializeField] float stunDelay = 1f;
     float stunTimer = 0f;
+    public GameObject endgameTrig;
 
     Vector3 destination;
     NavMeshAgent agent;
@@ -29,11 +30,11 @@ public class EnemyAI : MonoBehaviour
         if (isStunned)
         {
             stunTimer += Time.deltaTime;
-            
             if (stunTimer >= stunDelay)
             {
                 isStunned = false;
                 animator.SetBool("isStunned", false);
+                endgameTrig.SetActive(true);
             }
 
             return;
@@ -55,5 +56,6 @@ public class EnemyAI : MonoBehaviour
         isStunned = true;
         stunTimer = 0f;
         animator.SetBool("isStunned", true);
+        endgameTrig.SetActive(false);
     }
 }

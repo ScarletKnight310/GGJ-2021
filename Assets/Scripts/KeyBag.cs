@@ -8,9 +8,9 @@ public class KeyBag : MonoBehaviour
     int numOfKeys = 0;
     public string keyTag = "Key";
     public string doorTag = "Door";
+    public string endTag = "End";
     public Text numOfKeysText;
     private void OnTriggerEnter(Collider col) {
-        Debug.Log("HIGH");
         if (col.gameObject.CompareTag(keyTag)) {
             col.gameObject.SetActive(false);
             numOfKeys++;
@@ -19,6 +19,9 @@ public class KeyBag : MonoBehaviour
             Debug.Log("1232");
             col.gameObject.transform.parent.gameObject.GetComponent<Open>().enabled = true;
             numOfKeys--;
+        }
+        else if (col.gameObject.CompareTag(endTag)) {
+            Debug.Log("Switch to next phase");
         }
         numOfKeysText.text = numOfKeys+"";
     }
