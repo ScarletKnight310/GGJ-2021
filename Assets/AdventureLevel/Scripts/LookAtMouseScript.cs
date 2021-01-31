@@ -49,8 +49,6 @@ public class LookAtMouseScript : MonoBehaviour
                         nextLight.GetComponent<Mirror>().prevLight = gameObject;
 
                         nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
-
-                        
                     }
                     else if (hit.transform.gameObject.CompareTag("Enemy") && !Reaper.dead)
                     {

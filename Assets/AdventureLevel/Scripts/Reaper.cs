@@ -62,6 +62,7 @@ public class Reaper : MonoBehaviour
         if (!anim.GetCurrentAnimatorStateInfo(0).IsName("reaperdamaged"))
             anim.SetTrigger("Damaged");
 
+        //shake
         transform.position = new Vector3(Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, transform.position.y, transform.position.z);
 
         if (currentHealth < 1f)

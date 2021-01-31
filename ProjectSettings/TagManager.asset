@@ -6,6 +6,7 @@ TagManager:
   tags:
   - LightObjects
   - Enemy
+  - Gem
   layers:
   - Default
   - TransparentFX

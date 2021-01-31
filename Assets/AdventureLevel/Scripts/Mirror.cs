@@ -18,10 +18,7 @@ public class Mirror : MonoBehaviour
 
     public GameObject prevLight;
 
-
-    //public bool isReflecting;
-
-
+    GameObject lastGem;
 
     private void Start()
     {  
@@ -70,9 +67,25 @@ public class Mirror : MonoBehaviour
                     nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
                 }
                 else
-                {
                     ResetL();
-                    //print( gameObject.name + " not a light object reset");
+
+                if (hit.transform.gameObject.CompareTag("Gem"))
+                {
+                    lastGem = hit.transform.gameObject;
+
+                    if (GetComponent<MeshRenderer>().material.color == hit.transform.gameObject.GetComponent<SpriteRenderer>().color)
+                    {
+
+                        lastGem.GetComponent<gem>().charged = true;
+
+                    }
+                    else
+                        lastGem.GetComponent<gem>().charged = false;
+                }
+                else
+                {
+                    if (lastGem != null)
+                        lastGem.GetComponent<gem>().charged = false;
                 }
             }
             else
@@ -90,6 +103,9 @@ public class Mirror : MonoBehaviour
 
     void ResetL()
     {
+        if (lastGem != null)
+            lastGem.GetComponent<gem>().charged = false;
+
         if (nextLight != null)
         {
             nextLight.GetComponent<Mirror>().canReflect = false;
