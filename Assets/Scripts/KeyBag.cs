@@ -16,6 +16,7 @@ public class KeyBag : MonoBehaviour
             numOfKeys++;
         }
         else if (col.gameObject.CompareTag(doorTag) && numOfKeys > 0) {
+            Debug.Log("1232");
             col.gameObject.transform.parent.gameObject.GetComponent<Open>().enabled = true;
             numOfKeys--;
         }
