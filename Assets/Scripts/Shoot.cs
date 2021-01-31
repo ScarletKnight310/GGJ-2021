@@ -6,7 +6,7 @@ public class Shoot : MonoBehaviour
 {
 
     public static GameObject instance = null;
-
+    //public bool gotStapler = false;
     //Records the number of projectiles the player has, the player, and the projectile
     public GameObject player;
     public GameObject projectile;
