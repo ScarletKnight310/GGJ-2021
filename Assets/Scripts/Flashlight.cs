@@ -12,7 +12,9 @@ public class Flashlight: MonoBehaviour
 
     public GameObject enemy;
     public LayerMask enemyLayer;
-    
+
+    public float volume = 1;
+    public AudioClip audicC;
 
     private void Awake() {
         flashLight.SetActive(false);
@@ -27,6 +29,9 @@ public class Flashlight: MonoBehaviour
                 && Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), flashLightRange, enemyLayer)) {
                 // stun
                 enemy.GetComponent<EnemyAI>().Stun();
+                if (!GetComponent<AudioSource>().isPlaying) {
+                    GetComponent<AudioSource>().PlayOneShot(audicC, volume);
+                }
             }
         }
     }
