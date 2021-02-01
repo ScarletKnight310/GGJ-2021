@@ -17,6 +17,10 @@ public class gem : MonoBehaviour
     public float shakeAmount = 1f;
 
     int i = 0;
+    int j = 0;
+
+    float startShakeX = 0f;
+
 
     void Start()
     {
@@ -26,11 +30,21 @@ public class gem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (charged)
         {
+
+            if (j < 1)
+            {
+                startShakeX = chest.transform.position.x;
+                j++;
+            }
+
             if (i < 60)
             {
-                chest.transform.position = new Vector3(Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, chest.transform.position.y, chest.transform.position.z);
+                //SHAKE
+                chest.transform.position = new Vector3(startShakeX + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, chest.transform.position.y, chest.transform.position.z);
+
                 i++;
             }
             else
@@ -39,7 +53,10 @@ public class gem : MonoBehaviour
 
         }
         else
+        {
             i = 0;
+            j = 0;
+        }
 
     }
 }

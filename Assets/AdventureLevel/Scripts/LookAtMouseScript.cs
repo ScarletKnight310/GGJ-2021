@@ -8,11 +8,15 @@ public class LookAtMouseScript : MonoBehaviour
     public float rayDistance = 5f;
     public static bool ray1Overlap = false;
 
+    public GameObject reaper;
+
     bool dead;
 
     GameObject nextLight;
 
     float vecDistance = 500f;
+
+    public int i = -1000;
 
     void Update()
     {
@@ -29,11 +33,18 @@ public class LookAtMouseScript : MonoBehaviour
 
             RaycastHit hit;
 
+            // Bit shift the index of the layer (8) to get a bit mask
+            int layerMask = 1 << 9;
+
+            // This would cast rays only against colliders in layer 8.
+            // But instead we want to collide against everything except layer 8. The ~ operator does this, it inverts a bitmask.
+            layerMask = ~layerMask;
+
             if (lmb)
             {
                 Debug.DrawRay(transform.position, (Input.mousePosition - pos) * vecDistance, Color.red);
 
-                if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, vecDistance))
+                if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, vecDistance, layerMask))
                 {
                     if (hit.transform.gameObject.CompareTag("LightObjects"))
                     {
@@ -50,9 +61,15 @@ public class LookAtMouseScript : MonoBehaviour
 
                         nextLight.transform.GetChild(0).transform.position = new Vector3(hit.point.x, hit.point.y, nextLight.transform.GetChild(0).transform.position.z);
                     }
-                    else if (hit.transform.gameObject.CompareTag("Enemy") && !Reaper.dead)
+                    else if (hit.transform.gameObject.CompareTag("Enemy"))
                     {
-                        hit.transform.gameObject.SendMessage("Damage", 1f);
+                        print("here1");
+
+                        if (!hit.transform.gameObject.GetComponent<Reaper>().dead && !hit.transform.gameObject.GetComponent<Reaper>().isBoss)
+                        {
+                            print("here2"); 
+                            hit.transform.gameObject.SendMessage("Damage", 1f);
+                        }
                     }
                     else
                         ResetFL();

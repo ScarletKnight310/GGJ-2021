@@ -22,6 +22,11 @@ public class Mirror : MonoBehaviour
 
     GameObject lastGem;
 
+    public GameObject reaperBoss;
+
+    public bool bossMirror;
+
+
     private void Start()
     {  
         l = gameObject.transform.GetChild(0).GetComponent<Light>();
@@ -49,7 +54,9 @@ public class Mirror : MonoBehaviour
             //NEXT REFLECTION
 
             Debug.DrawRay(l.transform.position, reflectVec * vecDistance, Color.red);
+            Debug.DrawRay(l.transform.position, new Vector3(reflectVec.x + .1f, reflectVec.y + .1f, reflectVec.z), Color.red);
 
+            //RAYCAST 1
             if (Physics.Raycast(l.transform.position, reflectVec, out hit, vecDistance))
             {
                 if (hit.transform.gameObject.CompareTag("LightObjects"))
@@ -88,6 +95,14 @@ public class Mirror : MonoBehaviour
                 {
                     if (lastGem != null)
                         lastGem.GetComponent<gem>().charged = false;
+                }
+
+                if (hit.transform.gameObject.CompareTag("Enemy"))
+                {
+                    if (bossMirror && hit.transform.gameObject.GetComponent<Reaper>().isBoss && !hit.transform.gameObject.GetComponent<Reaper>().dead && l.color == hit.transform.gameObject.GetComponent<Reaper>().mats[reaperBoss.GetComponent<Reaper>().currentMat].color)
+                    {
+                        hit.transform.gameObject.SendMessage("Damage", 1f);
+                    }
                 }
             }
             else

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4073509688356217918}
   - component: {fileID: 4073509688356217919}
   - component: {fileID: 4073509688356217907}
+  - component: {fileID: 2648306095140680319}
   m_Layer: 0
   m_Name: Reaper
   m_TagString: Enemy
@@ -119,8 +120,12 @@ MonoBehaviour:
   attack: 0
   maxHealth: 100
   currentHealth: 0
+  dead: 0
   shakeSpeed: 50
   shakeAmount: 0.2
+  isBoss: 0
+  mats: []
+  currentMat: 0
 --- !u!65 &4073509688356217907
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -134,3 +139,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.39753625, y: 0.24058703, z: 7.599711}
   m_Center: {x: -0.0070626377, y: -0.025896585, z: -1.8564689}
+--- !u!114 &2648306095140680319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4073509688356217912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1628c7f270495488b7f941e51feb0e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  closingDistance: 0
+  runningDistance: 5
+  chase: 1

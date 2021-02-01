@@ -12,7 +12,7 @@ public class Reaper : MonoBehaviour
 
     public float currentHealth;
 
-    public static bool dead;
+    public bool dead;
 
     SpriteRenderer sr;
 
@@ -24,6 +24,15 @@ public class Reaper : MonoBehaviour
     float startShakeX = 0f;
 
     int i = 0;
+    int j = 0;
+
+    public bool isBoss;
+
+    int deathCount;
+
+    public List<Material> mats = new List<Material>(4);
+
+    public int currentMat = 0;
 
 
     // Start is called before the first frame update
@@ -37,6 +46,10 @@ public class Reaper : MonoBehaviour
 
         spawnLoc = transform.position;
 
+        if (isBoss)
+        {
+            sr.color = mats[currentMat].color;
+        }
     }
 
     // Update is called once per frame
@@ -45,6 +58,11 @@ public class Reaper : MonoBehaviour
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
             Respawn();
+        }
+
+        if (isBoss)
+        {
+            sr.color = mats[currentMat].color;
         }
     }
 
@@ -62,27 +80,22 @@ public class Reaper : MonoBehaviour
     void Damage(float damage)
     {
         currentHealth -= damage;
+        
+        startShakeX = transform.position.x;
 
-        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("reaperdamaged"))
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("reaperdamaged") & !dead)
         {
 
             anim.SetTrigger("Damaged");
+            //SHAKE
+            transform.position = new Vector3(startShakeX + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, transform.position.y, transform.position.z);
         }
-
-        if (i < 1)
-        {
-            startShakeX = transform.position.x;
-            i++;
-        }
-        
-        //SHAKE
-        transform.position = new Vector3(startShakeX + Mathf.Sin(Time.time * shakeSpeed) * shakeAmount, transform.position.y, transform.position.z);
 
         //DEATH
-        if (currentHealth < 1f)
+        if (currentHealth < 1f && j < 1)
         {
-            i = 0;
             Die();
+            j++;
         }
     }
 
@@ -91,7 +104,10 @@ public class Reaper : MonoBehaviour
         dead = true;
 
         anim.SetTrigger("Die");
-        
+
+        if (currentMat < 3)
+            currentMat++;
+
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
         {
             Respawn();
@@ -102,10 +118,13 @@ public class Reaper : MonoBehaviour
     {
         transform.position = spawnLoc;
 
+ 
+
         dead = false;
         
         currentHealth = maxHealth;
 
+        j = 0;
 
         anim.SetTrigger("Respawn");
 
