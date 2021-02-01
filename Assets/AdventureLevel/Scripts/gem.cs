@@ -21,6 +21,8 @@ public class gem : MonoBehaviour
 
     float startShakeX = 0f;
 
+    public GameObject key;
+
 
     void Start()
     {
@@ -47,8 +49,12 @@ public class gem : MonoBehaviour
 
                 i++;
             }
-            else
+            else //OPEN
+            {
                 chest.GetComponent<SpriteRenderer>().sprite = openChest;
+
+                key.GetComponent<SpriteRenderer>().enabled = true;
+            }
 
 
         }
