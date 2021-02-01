@@ -24,7 +24,7 @@ public class MovementPlayer : MonoBehaviour
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
         movement = Vector3.ClampMagnitude(movement, speed);
 
-        movement.y = gravity;
+        //movement.y = gravity;
 
         movement *= Time.deltaTime;
 
@@ -34,7 +34,7 @@ public class MovementPlayer : MonoBehaviour
             GetComponent<AudioSource>().PlayOneShot(audicC, volume);
         }
         charController.Move(movement);
-
+        transform.position = new Vector3(transform.position.x, 0.604f, transform.position.z);
 
     }
 }
