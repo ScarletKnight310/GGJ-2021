@@ -54,6 +54,7 @@ public class gem : MonoBehaviour
                 chest.GetComponent<SpriteRenderer>().sprite = openChest;
 
                 key.GetComponent<SpriteRenderer>().enabled = true;
+                key.GetComponent<BoxCollider>().enabled = true;
             }
 
 

@@ -8,6 +8,8 @@ public class pickup : MonoBehaviour
 
     GameObject lastCol;
 
+    public bool isSuperBit;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -29,7 +31,15 @@ public class pickup : MonoBehaviour
         {
             follow = true;
             lastCol = col.gameObject;
-            lockedGate.controller.gameObject.SendMessage("getKey", gameObject);
+
+            if (isSuperBit)
+            {
+                Flashlight.super = true;
+            }
+            else
+            {
+                lockedGate.controller.gameObject.SendMessage("getKey", gameObject);
+            }
         }
 
     }

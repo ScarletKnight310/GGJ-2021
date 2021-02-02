@@ -217,8 +217,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4099b902479ea4742bface4d7cfc61d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  l: {fileID: 0}
   lmb: 0
   player: {fileID: 0}
   nextLight: {fileID: 0}
   canReflect: 0
   prevLight: {fileID: 0}
+  vecDistance: 50
+  reaperBoss: {fileID: 0}
+  bossMirror: 0

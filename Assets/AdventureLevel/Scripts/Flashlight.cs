@@ -6,6 +6,7 @@ public class Flashlight : MonoBehaviour
 {
     public Light l;
 
+    public static bool super;
 
     public float pLightWidth = 40f;
     public float pLightIntensity = 1300f;
@@ -23,10 +24,21 @@ public class Flashlight : MonoBehaviour
 
         if (lmb)
         {
-            l.range = pRange;
-            l.intensity = pLightIntensity;
-            l.spotAngle = pLightWidth;
-            l.enabled = true;
+            if(!super)
+            {
+                l.range = pRange;
+                l.intensity = pLightIntensity;
+                l.spotAngle = pLightWidth;
+                l.enabled = true;
+            }
+            else
+            {
+                l.color = Color.yellow;
+                l.range = pRange * 10f;
+                l.intensity = pLightIntensity * 10f;
+                l.spotAngle = pLightWidth * 2f;
+                l.enabled = true;
+            }
         }
         else if (rmb)
         {

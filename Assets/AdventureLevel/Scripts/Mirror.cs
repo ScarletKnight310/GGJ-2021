@@ -18,7 +18,7 @@ public class Mirror : MonoBehaviour
 
     public GameObject prevLight;
 
-    float vecDistance = 500f;
+    public float vecDistance = 500f;
 
     GameObject lastGem;
 
@@ -40,24 +40,28 @@ public class Mirror : MonoBehaviour
 
         lmb = Input.GetKey(KeyCode.Mouse0);
 
-        if (lmb && canReflect)
+        if (lmb && canReflect && !Flashlight.super)
         {
             //CURRENT REFLECTION
             reflectVec = Vector3.Reflect(l.transform.position - prevLight.transform.position, transform.up * -1f);
 
             RaycastHit hit;
 
-
             //ROTATION
-            l.transform.LookAt(reflectVec * vecDistance);
+            l.transform.LookAt(reflectVec * 500f);
 
             //NEXT REFLECTION
-
             Debug.DrawRay(l.transform.position, reflectVec * vecDistance, Color.red);
-            Debug.DrawRay(l.transform.position, new Vector3(reflectVec.x + .1f, reflectVec.y + .1f, reflectVec.z), Color.red);
+            
+            // Bit shift the index of the layer (9) to get a bit mask
+            int layerMask = 1 << 9;
+
+            // This would cast rays only against colliders in layer 9.
+            // But instead we want to collide against everything except layer 9. The ~ operator does this, it inverts a bitmask.
+            layerMask = ~layerMask;
 
             //RAYCAST 1
-            if (Physics.Raycast(l.transform.position, reflectVec, out hit, vecDistance))
+            if (Physics.Raycast(l.transform.position, reflectVec, out hit, vecDistance, layerMask))
             {
                 if (hit.transform.gameObject.CompareTag("LightObjects"))
                 {

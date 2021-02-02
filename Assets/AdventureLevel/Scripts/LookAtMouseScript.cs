@@ -14,19 +14,32 @@ public class LookAtMouseScript : MonoBehaviour
 
     GameObject nextLight;
 
-    float vecDistance = 500f;
+    public float vecDistance = 500f;
 
     public int i = -1000;
 
+    public float offsetX;
+    public float offsetY;
+
+    public float damping = 1f;
+
     void Update()
     {
-
         if (!Player.dead)
         {
+            if (Input.GetKey(KeyCode.F1))
+                offsetX -= 1f;
+            if (Input.GetKey(KeyCode.F2))
+                offsetX += 1f;
+
+            if (Input.GetKey(KeyCode.F3))
+                offsetY -= 1f;
+            if (Input.GetKey(KeyCode.F4))
+                offsetY += 1f;
+
             //ROTATION
-            Vector3 pos = Camera.main.WorldToScreenPoint(transform.position);
-            Vector3 dir = Input.mousePosition - pos;
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            Vector3 realMouse = (new Vector3(Input.mousePosition.x - offsetX, Input.mousePosition.y - offsetY, Input.mousePosition.z) - transform.position) * vecDistance;
+            float angle = Mathf.Atan2(realMouse.y, realMouse.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
             bool lmb = Input.GetKey(KeyCode.Mouse0);
@@ -42,9 +55,9 @@ public class LookAtMouseScript : MonoBehaviour
 
             if (lmb)
             {
-                Debug.DrawRay(transform.position, (Input.mousePosition - pos) * vecDistance, Color.red);
+                Debug.DrawRay(transform.position, realMouse * vecDistance, Color.red);
 
-                if (Physics.Raycast(transform.position, Input.mousePosition - pos, out hit, vecDistance, layerMask))
+                if (Physics.Raycast(transform.position, realMouse, out hit, vecDistance, layerMask))
                 {
                     if (hit.transform.gameObject.CompareTag("LightObjects"))
                     {
@@ -63,9 +76,8 @@ public class LookAtMouseScript : MonoBehaviour
                     }
                     else if (hit.transform.gameObject.CompareTag("Enemy"))
                     {
-                        print("here1");
 
-                        if (!hit.transform.gameObject.GetComponent<Reaper>().dead && !hit.transform.gameObject.GetComponent<Reaper>().isBoss)
+                        if (!hit.transform.gameObject.GetComponent<Reaper>().dead && !hit.transform.gameObject.GetComponent<Reaper>().isBoss || hit.transform.gameObject.GetComponent<Reaper>().isBoss && !hit.transform.gameObject.GetComponent<Reaper>().dead && Flashlight.super )
                         {
                             print("here2"); 
                             hit.transform.gameObject.SendMessage("Damage", 1f);
