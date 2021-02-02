@@ -8,17 +8,23 @@ public class MovementPlayer : MonoBehaviour
     public float gravity = -9.8f;
     public float volume = 1;
     public AudioClip audicC;
+    public float startingY;
+    public Transform skipToTarget;
+    public bool lockVertical = true;
     private CharacterController charController;
 
     // Start is called before the first frame update
-    void Start() { 
+    void Start()
+    {
+        startingY = transform.position.y;
         charController=GetComponent<CharacterController>(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector2Int input = new Vector2Int((int)Input.GetAxisRaw("Horizontal"), (int)Input.GetAxisRaw("Vertical"));
+
+        Vector2Int input = new Vector2Int((int) Input.GetAxisRaw("Horizontal"), (int) Input.GetAxisRaw("Vertical"));
         float deltaX = input.x * speed;
         float deltaZ = input.y * speed;
         Vector3 movement = new Vector3(deltaX, 0, deltaZ);
@@ -30,11 +36,19 @@ public class MovementPlayer : MonoBehaviour
 
         movement = transform.TransformDirection(movement);
 
-        if ((!(input.x == 0) || !(input.y == 0)) && !GetComponent<AudioSource>().isPlaying) {
+        if ((!(input.x == 0) || !(input.y == 0)) && !GetComponent<AudioSource>().isPlaying)
+        {
             GetComponent<AudioSource>().PlayOneShot(audicC, volume);
         }
+
         charController.Move(movement);
+        if (lockVertical)
+            transform.position = new Vector3(transform.position.x, startingY, transform.position.z);
 
-
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            transform.position = skipToTarget.position;
+            print("Skip!");
+        }
     }
 }
