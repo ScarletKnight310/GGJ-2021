@@ -29,6 +29,8 @@ public class Reaper : MonoBehaviour
 
     public GameObject superbit;
 
+    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,7 +51,7 @@ public class Reaper : MonoBehaviour
 
         if (isBoss)
         {
-            if (currentMat < mats.Count)
+            if (currentMat < mats.Count) //set cube color
             {
                 for (int i = 0; i < shieldCubes.Count; i++)
                 {
@@ -65,6 +67,9 @@ public class Reaper : MonoBehaviour
 
             }
             anim.SetFloat("RespawnTime", 10f);
+
+            if (currentMat >= mats.Count - 1)
+                superbit.SetActive(true);
         }
         else
             anim.SetFloat("RespawnTime", 1f);
@@ -108,8 +113,8 @@ public class Reaper : MonoBehaviour
         //DEATH
         if (currentHealth < 1f && j < 1)
         {
-            Die();
             j++;
+            Die();
         }
     }
 
@@ -121,16 +126,17 @@ public class Reaper : MonoBehaviour
 
         if (currentMat < mats.Count - 1)
         {
-            currentMat++;
-
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Respawn"))
                 Respawn();
         }
         else
+        {
             anim.SetBool("superDead", true);
-        
-        if (currentMat == mats.Count - 1)
-            superbit.SetActive(true);
+
+
+        }
+
+        currentMat++;
     }
 
     void Respawn()

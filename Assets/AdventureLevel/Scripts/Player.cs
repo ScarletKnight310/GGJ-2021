@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     SpriteRenderer sr;
 
-    Vector3 spawnLoc;
+    public Vector3 spawnLoc;
 
 
     // Start is called before the first frame update

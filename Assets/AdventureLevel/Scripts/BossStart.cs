@@ -6,6 +6,7 @@ public class BossStart : MonoBehaviour
 {
     public GameObject boss;
     public GameObject mob;
+    public GameObject player;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class BossStart : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
+            player.GetComponent<Player>().spawnLoc = player.transform.position;
             boss.GetComponent<EnemyFollow>().enabled = true;
             mob.SetActive(false);
         }

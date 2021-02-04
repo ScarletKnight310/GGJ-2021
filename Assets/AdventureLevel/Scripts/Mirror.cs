@@ -26,11 +26,14 @@ public class Mirror : MonoBehaviour
 
     public bool bossMirror;
 
+    Transform lightPos;
+
 
     private void Start()
     {  
         l = gameObject.transform.GetChild(0).GetComponent<Light>();
         l.color = GetComponent<MeshRenderer>().material.color;
+        lightPos = l.transform;
     }
 
     // Update is called once per frame
@@ -119,6 +122,7 @@ public class Mirror : MonoBehaviour
         {
             ResetL();
             //print(gameObject.name + " no input or previous reflect");
+
         }
     }
 
