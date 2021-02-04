@@ -29,7 +29,7 @@ public class Reaper : MonoBehaviour
 
     public GameObject superbit;
 
-    
+    public GameObject nextSceneTrigger;
 
     // Start is called before the first frame update
     void Start()
@@ -124,23 +124,33 @@ public class Reaper : MonoBehaviour
 
         anim.SetTrigger("Die");
 
-        if (currentMat < mats.Count - 1)
+        if(isBoss)
         {
-            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Respawn"))
-                Respawn();
+            if (currentMat < mats.Count - 1)
+            {
+                if (anim.GetCurrentAnimatorStateInfo(0).IsName("Respawn"))
+                    Respawn();
+            }
+            else
+            {
+                anim.SetBool("superDead", true);
+                nextSceneTrigger.SetActive(true);
+            }
+
+            currentMat++;
         }
         else
         {
-            anim.SetBool("superDead", true);
-
-
+            //if (anim.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+                Respawn();
         }
 
-        currentMat++;
     }
 
     void Respawn()
     {
+        anim.SetTrigger("Respawn");
+        
         transform.position = spawnLoc;
 
         dead = false;
@@ -149,7 +159,6 @@ public class Reaper : MonoBehaviour
 
         j = 0;
 
-        anim.SetTrigger("Respawn");
     }
 
 }

@@ -1690,6 +1690,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4073509688356217919, guid: 1fca9b5c3477e5448941798bef0b20ba,
         type: 3}
+      propertyPath: nextSceneTrigger
+      value: 
+      objectReference: {fileID: 627307041}
+    - target: {fileID: 4073509688356217919, guid: 1fca9b5c3477e5448941798bef0b20ba,
+        type: 3}
       propertyPath: mats.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d1c089f02f332f14baeafe429ddc17f1, type: 2}
@@ -2050,7 +2055,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &627307042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7009,12 +7014,12 @@ PrefabInstance:
     - target: {fileID: 2919520227004395689, guid: e9b33849d67ef674da4cb38b2188b2be,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 206.7
+      value: 218.7
       objectReference: {fileID: 0}
     - target: {fileID: 2919520227004395689, guid: e9b33849d67ef674da4cb38b2188b2be,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -7.6
+      value: -1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2919520227004395689, guid: e9b33849d67ef674da4cb38b2188b2be,
         type: 3}
